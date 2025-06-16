@@ -72,6 +72,17 @@ Developed a secure bootloader supporting AES-128 encrypted OTA firmware updates 
 
 ---
 
+## 🧠 Skills Demonstrated
+- Bare-metal and RTOS firmware architecture
+- Flash memory management & linker scripts
+- Embedded communication protocols (UART, CAN)
+- Cryptographic techniques (AES-128, hash, signature)
+- Robust OTA update systems with rollback safety
+- Host-PC integration via Python scripting
+- Full-stack embedded workflow from bootloader → app → PC
+
+---
+
 ## 📬 Contact
 
 Feel free to reach out via [LinkedIn](#) or open an issue for suggestions or questions.
