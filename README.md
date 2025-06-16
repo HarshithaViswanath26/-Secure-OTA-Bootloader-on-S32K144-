@@ -1,84 +1,77 @@
-# -Secure-OTA-Bootloader-on-S32K144-
 
-1. S32K144-SecureOTA/
-│
-├── bootloader/
-│   ├── src/
-│   ├── inc/
-│   ├── linker.ld
-│   └── .project
-│
-├── app/
-│   ├── FreeRTOS/
-│   ├── src/
-│   ├── version.h
-│   └── main.c
-│
-├── ota_tool/
-│   ├── ota_sender.py
-│   └── readme.md
-│
-├── docs/
-│   ├── architecture.png
-│   ├── test_log.md
-│   └── user_manual.pdf
-│
-└── README.md
+---
 
+## 🛠️ Development Plan & Milestones
 
-🛠️ 2. Development Plan & Milestones
-🔹 Phase 1: Bootloader (Weeks 1–2)
+### 🔹 Phase 1: Bootloader (Weeks 1–2)
 - Configure S32K144 in standalone bootloader mode
-- Flash partitioning (decide flash space for bootloader vs app)
-- UART/CAN peripheral setup (start with UART for simplicity)
-- Command parser for:
-  START, SEND_CHUNK, VERIFY, REBOOT
+- Flash partitioning for bootloader and main app
+- UART (or CAN) peripheral setup
+- Command parser: `START`, `SEND_CHUNK`, `VERIFY`, `REBOOT`
 
-🔹 Phase 2: Firmware Encryption & Verification (Week 3)
-- Implement AES-128 decryption using software or hardware module
-- Add SHA-256 or CRC32 hash validation
-- Digital signature support (optional, can use a pre-generated RSA key for demo)
-- If invalid – show LED error / fallback
+### 🔹 Phase 2: Firmware Encryption & Verification (Week 3)
+- Implement AES-128 decryption (software/hardware)
+- Add SHA-256 or CRC32 checksum validation
+- Optional: RSA digital signature verification
+- Error indication via LEDs or fallback routine
 
-🔹 Phase 3: OTA Firmware Sender App (Week 4)
-- Develop a Python desktop tool:
-- Select firmware binary
-- Chunk it, encrypt it, send via UART
-- Send version number / metadata
+### 🔹 Phase 3: OTA Firmware Sender App (Week 4)
+- Python-based tool:
+  - Encrypt and chunk firmware binary
+  - Send metadata and binary via UART
+  - Track update status and feedback
 
-🔹 Phase 4: Application with FreeRTOS (Week 5)
-- FreeRTOS with 2–3 tasks:
-- LED Blink
-- OTA Update Listener
-- Diagnostic Info Print
-- Make it version-aware (e.g., v1.0, v2.0… visible on terminal)
+### 🔹 Phase 4: Application with FreeRTOS (Week 5)
+- Create 2–3 FreeRTOS tasks:
+  - LED blinking
+  - OTA update listener
+  - Diagnostics and version output
+- Support version identification on terminal
 
-🔹 Phase 5: Fail-safe Mechanism (Week 6)
-- Add a backup firmware slot (if flash allows)
-- If OTA fails or power-loss → rollback to previous working app
-- Store state in flash/eeprom
+### 🔹 Phase 5: Fail-safe Mechanism (Week 6)
+- Backup firmware slot (if space allows)
+- Power-loss recovery with rollback to previous version
+- Store state in EEPROM/Flash
 
-🧪 3. Test Cases & Validation
+---
+
+## 🧪 Test Cases & Validation
 
 | Test Case                  | Expected Outcome                         |
-| -------------------------- | ---------------------------------------- |
+|---------------------------|------------------------------------------|
 | Normal firmware upload     | Decrypts, writes, reboots to new version |
 | Corrupt binary sent        | Shows error, doesn't boot new app        |
-| Power loss during upload   | Boots old version (rollback works)       |
-| Wrong signature            | Fails update, reverts                    |
-| CAN instead of UART (opt.) | Works with CAN, shows flexibility        |
+| Power loss during upload   | Rolls back to old working version        |
+| Wrong signature            | Fails update, does not boot              |
+| CAN instead of UART (opt.) | Works with CAN, demonstrates flexibility |
 
-🧰 4. Tools Required
+---
 
-| Tool/Library            | Purpose                           |
-| ----------------------- | --------------------------------- |
-| **S32 Design Studio**   | For building and flashing S32K144 |
-| **FreeRTOS**            | RTOS for main application         |
-| **OpenSSL/PyCrypto**    | For AES encryption/signature      |
-| **Python (PySerial)**   | For the OTA PC uploader tool      |
-| **UART/USB/CAN dongle** | Interface with MCU                |
-| **Oscilloscope (opt.)** | Debugging CAN/UART timing         |
+## 🧰 Tools Required
 
+| Tool/Library            | Purpose                             |
+|-------------------------|-------------------------------------|
+| **S32 Design Studio**   | Build & flash S32K144 MCU           |
+| **FreeRTOS**            | RTOS for application logic          |
+| **OpenSSL/PyCrypto**    | Firmware encryption & signing       |
+| **Python (PySerial)**   | OTA desktop tool communication      |
+| **UART/USB/CAN dongle** | MCU communication interface         |
+| **Oscilloscope (opt.)** | Timing/debugging for UART/CAN       |
 
-Developed a secure bootloader supporting AES-128 encrypted OTA firmware updates over UART with integrity checks and rollback. Integrated FreeRTOS-based main application with multi-version firmware control. Created Python OTA tool and verified power-loss recovery and digital signature validation.
+---
 
+## 📄 Summary
+
+Developed a secure bootloader supporting AES-128 encrypted OTA firmware updates over UART with integrity checks and rollback. Integrated a FreeRTOS-based main application with multi-version firmware control. Built a Python OTA tool to automate secure firmware delivery and verified support for power-loss recovery and digital signature validation.
+
+---
+
+## 📸 Preview
+
+![Architecture Diagram](docs/architecture.png)
+
+---
+
+## 📬 Contact
+
+Feel free to reach out via [LinkedIn](#) or open an issue for suggestions or questions.
